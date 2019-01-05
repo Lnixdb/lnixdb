@@ -1,0 +1,1 @@
+g++ -g database.cpp dbm.cpp db.c threadpool.cpp threadpoolimpl.cpp  dbmserver.cpp  requestandreply.cpp  client.cpp recordlock.c -o database -std=c++11 -L/usr/local/lib -levent -Wl,-rpath=/usr/local/lib
