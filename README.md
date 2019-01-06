@@ -8,7 +8,11 @@
  (3)master : 接收route转发的CRUD请求，执行请求，发送回复，并通过“命令传播”将请求发送给slaves。
  (4)slave  : 接收master的传播命令请求，执行请求。
 
-2、故障转移的实现
+2、master-slave复制实现
+ (1)初次复制，slave向master发送"slaveof"命令，master复制数据库全部KV发送给slaves。
+ (2)初次复制完成后，master每接收一条请求，将请求发送给slaves，主从同步。
+ 
+3、故障转移的实现
  (1)master每2秒发送master及对应的slaves节点信息（ip,port,节点主从flag）给route服务器。
  (2)route服务器记录下(1)中的节点信息，并每隔2秒向master、slaves发送"PING"，并接收消息回复"PONG"。
  (3)如果master没有及时（超过4秒）回复"PONG"消息，route服务器认为master没有正常工作，不能继续接收请求，route自动切换该master对应的slaves中的一台接收并执行客户端请求，切换策略很简单，随机选择一台。
