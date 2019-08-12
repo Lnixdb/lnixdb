@@ -16,3 +16,5 @@
  (1)master每2秒发送master及对应的slaves节点信息（ip,port,节点主从flag）给route服务器。
  (2)route服务器记录下(1)中的节点信息，并每隔2秒向master、slaves发送"PING"，并接收消息回复"PONG"。
  (3)如果master没有及时（超过4秒）回复"PONG"消息，route服务器认为master没有正常工作，不能继续接收请求，route自动切换该master对应的slaves中的一台接收并执行客户端请求，切换策略很简单，随机选择一台。
+ 
+4、使用线程池提高并发能力。
